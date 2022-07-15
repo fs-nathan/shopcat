@@ -96,7 +96,7 @@ const ProductComponent: React.FC = () => {
             <div id="header" className="bg-linen w-full h-[6rem] pt-[1rem] pb-[2.5rem] px-[1rem] rounded-b-[14px]">
                 <div className="flex flex-row justify-between">
                     <span>{product.name || ''}</span>
-                    <span className="text-safety-orange text-[20px]">{!isEmpty(foundVariant) && isNumber(foundVariant.price) ? `$${Number(foundVariant.price).toFixed(2)}` : 'Variant Unavailable'}</span>
+                    <span className="text-safety-orange text-[20px]">{!isEmpty(foundVariant) && !isEmpty(foundVariant.price) ? `$${Number(`${foundVariant.price}`).toFixed(2)}` : 'Variant Unavailable'}</span>
                 </div>
                 <div className="flex flex-row justify-end">
                     {reward > 0 && (
