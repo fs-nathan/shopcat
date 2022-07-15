@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { addToCart, fetchProductById, IProduct } from "../utils";
 import { isEmpty, get, maxBy } from "lodash";
 import MenuButton from "./menu-button";
+import Loader from "./loader";
 
 const ProductComponent: React.FC = () => {
 
@@ -92,7 +93,7 @@ const ProductComponent: React.FC = () => {
 
     return (
         <div className="h-full bg-gray-400 mobile:w-full non-mobile:w-[480px] overflow-y-auto">
-            <div id="header" className="bg-linen w-full pt-[1rem] pb-[2.5rem] px-[1rem] rounded-b-[14px]">
+            <div id="header" className="bg-linen w-full h-[6rem] pt-[1rem] pb-[2.5rem] px-[1rem] rounded-b-[14px]">
                 <div className="flex flex-row justify-between">
                     <span>{product.name || ''}</span>
                     <span className="text-safety-orange text-[20px]">{foundVariant ? `$${Number(foundVariant.price).toFixed(2)}` : 'Variant Unavailable'}</span>
@@ -104,7 +105,7 @@ const ProductComponent: React.FC = () => {
                 </div>
             </div>
 
-            <div id="content" className="w-full pt-[1rem] px-[4rem] justify-center flex flex-col">
+            {!isLoading && <div id="content" className="w-full pt-[1rem] px-[4rem] justify-center flex flex-col">
                 <div className="w-full h-full flex flex-col">
                     {!isEmpty(imageSrc) && (
                         <div className="w-full h-auto flex justify-center">
@@ -156,6 +157,8 @@ const ProductComponent: React.FC = () => {
 
                 </div>
             </div>
+            }
+            {isLoading && <Loader />}
         </div>
     )
 }
