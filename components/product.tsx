@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { addToCart, fetchProductById, IProduct } from "../utils";
+import { addToCart, fetchProductById, IProduct } from "./utils";
 import { isEmpty, get, maxBy } from "lodash";
 import MenuButton from "./menu-button";
 import Loader from "./loader";

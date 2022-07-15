@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useEffect } from 'react'
-import ProductComponent from './components/product'
+import ProductComponent from '../components/product'
 
 const Home: NextPage = () => {
 
