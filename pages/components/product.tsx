@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { addToCart, fetchProductById, IProduct } from "../utils";
-import { isEmpty, get } from "lodash";
+import { isEmpty, get, maxBy } from "lodash";
 import MenuButton from "./menu-button";
 
 const ProductComponent: React.FC = () => {
@@ -77,16 +77,29 @@ const ProductComponent: React.FC = () => {
         }
     }, [foundVariant]);
 
+    useEffect(() => {
+        // pre-select highest rewarded variant
+        if (isEmpty(variantRewards) || isEmpty(variants)) return;
+        const rewards = Object.keys(variantRewards).map(item => { return { variantId: item, point: variantRewards[item] } })
+        const maxReward = maxBy(rewards, 'point');
+        if (!isEmpty(maxReward)) {
+            const variant = variants.find((item: any) => item.id == maxReward?.variantId)
+            if (!isEmpty(variant)) {
+                setSelectedOptions({ one: variant.option1, two: variant.option2 })
+            }
+        }
+    }, [variantRewards, variants]);
+
     return (
         <div className="h-full bg-gray-400 mobile:w-full non-mobile:w-[480px] overflow-y-auto">
             <div id="header" className="bg-linen w-full pt-[1rem] pb-[2.5rem] px-[1rem] rounded-b-[14px]">
                 <div className="flex flex-row justify-between">
                     <span>{product.name || ''}</span>
-                    <span className="text-safety-orange text-[20px]">{foundVariant ? `$${foundVariant.price}` : 'Variant Unavailable'}</span>
+                    <span className="text-safety-orange text-[20px]">{foundVariant ? `$${Number(foundVariant.price).toFixed(2)}` : 'Variant Unavailable'}</span>
                 </div>
                 <div className="flex flex-row justify-end">
                     {reward > 0 && (
-                        <p className="text-black text-[13px]">You got: <span className="text-sea-buckthorn">{`$${reward}`}</span></p>
+                        <p className="text-black text-[13px]">You got: <span className="text-sea-buckthorn">{`$${Number(reward).toFixed(2)}`}</span></p>
                     )}
                 </div>
             </div>
