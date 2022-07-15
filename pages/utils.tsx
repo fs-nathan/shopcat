@@ -15,7 +15,6 @@ export interface IProduct {
 }
 
 export const fetchProductById = async (productId = 53) => {
-    console.log(GQL_ENDPOINT);
     const query = `
     {
         productById(productId: ${productId}) {
@@ -34,6 +33,25 @@ export const fetchProductById = async (productId = 53) => {
     };
     const product = await axios.request(options)
         .then(res => get(res.data, 'data.productById', null));
+
+    return product;
+};
+
+export const addToCart = async (variantId: number) => {
+    const query = `
+    mutation {
+        addToCart(variantId: "${variantId}")
+    }
+`;
+
+    const options = {
+        method: 'POST',
+        url: GQL_ENDPOINT,
+        headers,
+        data: { query }
+    };
+    const product = await axios.request(options)
+        .then(res => res.data);
 
     return product;
 };
