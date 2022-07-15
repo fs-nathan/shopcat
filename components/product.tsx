@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { addToCart, fetchProductById, IProduct } from "./utils";
-import { isEmpty, get, maxBy } from "lodash";
+import { isEmpty, get, maxBy, isNumber } from "lodash";
 import MenuButton from "./menu-button";
 import Loader from "./loader";
 
@@ -96,7 +96,7 @@ const ProductComponent: React.FC = () => {
             <div id="header" className="bg-linen w-full h-[6rem] pt-[1rem] pb-[2.5rem] px-[1rem] rounded-b-[14px]">
                 <div className="flex flex-row justify-between">
                     <span>{product.name || ''}</span>
-                    <span className="text-safety-orange text-[20px]">{foundVariant ? `$${Number(foundVariant.price).toFixed(2)}` : 'Variant Unavailable'}</span>
+                    <span className="text-safety-orange text-[20px]">{!isEmpty(foundVariant) && isNumber(foundVariant.price) ? `$${Number(foundVariant.price).toFixed(2)}` : 'Variant Unavailable'}</span>
                 </div>
                 <div className="flex flex-row justify-end">
                     {reward > 0 && (
